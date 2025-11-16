@@ -8,37 +8,74 @@
     <artifactId>web3</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>web3</name>
+    <packaging>war</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
-        <junit.version>5.13.2</junit.version>
     </properties>
 
     <dependencies>
+        <!-- JSF -->
         <dependency>
             <groupId>jakarta.faces</groupId>
             <artifactId>jakarta.faces-api</artifactId>
-            <version>4.1.2</version>
+            <version>4.0.1</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- PrimeFaces -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>12.0.0</version>
+            <classifier>jakarta</classifier>
+        </dependency>
+
+        <!-- Jakarta Servlet API -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version> <!-- Совместимая с WildFly 32+ -->
+            <scope>provided</scope>
+        </dependency>
+
+
+        <!-- PostgreSQL -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.3</version>
+        </dependency>
+
+        <!-- CDI API (для IDEA, scope provided) -->
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Остальные ваши зависимости -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.17.1</version>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.17.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vavr</groupId>
+            <artifactId>vavr</artifactId>
+            <version>0.10.4</version>
         </dependency>
     </dependencies>
 
     <build>
-        <plugins>
-        </plugins>
+        <finalName>server</finalName>
     </build>
 </project>

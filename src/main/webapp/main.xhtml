@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru"
+        xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+        xmlns:ui="jakarta.faces.facelets">
+<f:view>
+    <h:head>
+        <title>HitChecker</title>
+        <h:outputStylesheet library="css" name="styles.css" />
+        <h:outputScript library="js" name="app.js" target="body" />
+    </h:head>
+
+    <h:body>
+        <div id="notifications-container"></div>
+        
+        <header>
+            <div class="header-left">
+                <h1>Дядев Владислав Александрович • P3231 • Вариант 3465</h1>
+            </div>
+            <div class="header-right">
+                <h:link outcome="index" value="← На главную" styleClass="btn-link" />
+            </div>
+        </header>
+
+        <main>
+            <div class="top-section">
+                <section class="controls">
+                    <h:form id="coordsForm">
+
+                        <!-- Выбор R -->
+                        <div class="form-group" id="rGroup">
+                            <label>R:</label>
+                            <div class="r-option">
+                                <h:selectBooleanCheckbox id="r1" value="#{pointCheckBean.r1}" />
+                                <label for="r1">1</label>
+                            </div>
+                            <div class="r-option">
+                                <h:selectBooleanCheckbox id="r1_5" value="#{pointCheckBean.r1_5}" />
+                                <label for="r1_5">1.5</label>
+                            </div>
+                            <div class="r-option">
+                                <h:selectBooleanCheckbox id="r2" value="#{pointCheckBean.r2}" />
+                                <label for="r2">2</label>
+                            </div>
+                            <div class="r-option">
+                                <h:selectBooleanCheckbox id="r2_5" value="#{pointCheckBean.r2_5}" />
+                                <label for="r2_5">2.5</label>
+                            </div>
+                            <div class="r-option">
+                                <h:selectBooleanCheckbox id="r3" value="#{pointCheckBean.r3}" />
+                                <label for="r3">3</label>
+                            </div>
+                        </div>
+
+                        <!-- Ввод X -->
+                        <div class="form-group" id="xGroup">
+                            <label for="xInput">X:</label>
+                            <h:inputText id="xInput" value="#{pointCheckBean.selectedX}" required="true">
+                                <f:passThroughAttribute name="placeholder" value="-3 ... 5" />
+                            </h:inputText>
+                        </div>
+
+                        <!-- Кнопки Y -->
+                        <div class="form-group">
+                            <label>Y (нажмите для отправки формы):</label>
+                            <div class="y-buttons">
+                                <h:commandButton value="-3" action="#{pointCheckBean.submitForm(-3)}" styleClass="btn">
+                                    <f:ajax execute="@form" render=":jsf-errors-container :history-table-panel" />
+                                </h:commandButton>
+                                <h:commandButton value="-2" action="#{pointCheckBean.submitForm(-2)}" styleClass="btn">
+                                    <f:ajax execute="@form" render=":jsf-errors-container :history-table-panel" />
+                                </h:commandButton>
+                                <h:commandButton value="-1" action="#{pointCheckBean.submitForm(-1)}" styleClass="btn">
+                                    <f:ajax execute="@form" render=":jsf-errors-container :history-table-panel" />
+                                </h:commandButton>
+                                <h:commandButton value="0" action="#{pointCheckBean.submitForm(0)}" styleClass="btn">
+                                    <f:ajax execute="@form" render=":jsf-errors-container :history-table-panel" />
+                                </h:commandButton>
+                                <h:commandButton value="1" action="#{pointCheckBean.submitForm(1)}" styleClass="btn">
+                                    <f:ajax execute="@form" render=":jsf-errors-container :history-table-panel" />
+                                </h:commandButton>
+                                <h:commandButton value="2" action="#{pointCheckBean.submitForm(2)}" styleClass="btn">
+                                    <f:ajax execute="@form" render=":jsf-errors-container :history-table-panel" />
+                                </h:commandButton>
+                                <h:commandButton value="3" action="#{pointCheckBean.submitForm(3)}" styleClass="btn">
+                                    <f:ajax execute="@form" render=":jsf-errors-container :history-table-panel" />
+                                </h:commandButton>
+                                <h:commandButton value="4" action="#{pointCheckBean.submitForm(4)}" styleClass="btn">
+                                    <f:ajax execute="@form" render=":jsf-errors-container :history-table-panel" />
+                                </h:commandButton>
+                                <h:commandButton value="5" action="#{pointCheckBean.submitForm(5)}" styleClass="btn">
+                                    <f:ajax execute="@form" render=":jsf-errors-container :history-table-panel" />
+                                </h:commandButton>
+                            </div>
+                        </div>
+
+                        <!-- Сообщения об ошибках JSF -->
+                        <div class="jsf-errors-container" id="jsf-errors-container">
+                            <h:messages id="msgs" layout="table" styleClass="jsf-error-message" />
+                        </div>
+
+                        <!-- Скрытые поля для клика по графику -->
+                        <h:inputHidden id="graphX" value="#{pointCheckBean.graphX}" />
+                        <h:inputHidden id="graphY" value="#{pointCheckBean.graphY}" />
+                        <h:inputHidden id="graphR" value="#{pointCheckBean.graphR}" />
+                        <h:commandButton id="graphSubmit" action="#{pointCheckBean.submitFromGraph()}" style="display: none;">
+                            <f:ajax execute="graphX graphY graphR" render=":jsf-errors-container :history-table-panel" />
+                        </h:commandButton>
+
+                    </h:form>
+                </section>
+
+                <section class="graph">
+                    <canvas id="graph"></canvas>
+                </section>
+            </div>
+
+            <section class="history">
+                <div class="history-header">
+                    <h2>История попаданий</h2>
+                    <h:form>
+                        <h:commandButton value="🗑 Очистить" action="#{historyBean.clearAll()}" styleClass="btn">
+                            <f:ajax execute="@this" render=":history-table-panel" />
+                        </h:commandButton>
+                    </h:form>
+                </div>
+
+                <h:panelGroup id="history-table-panel">
+                    <div class="history-table-wrapper" id="history-table-wrapper">
+                        <table id="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Время</th>
+                                    <th>Результат</th>
+                                    <th>X</th>
+                                    <th>Y</th>
+                                    <th>R</th>
+                                    <th>Время выполнения (мс)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-table-body">
+                                <ui:repeat value="#{historyBean.entries}" var="entry" id="history-repeat">
+                                    <tr class="history-item #{entry.result() ? 'hit' : 'miss'}" data-session-id="#{entry.sessionId()}">
+                                        <td>#{entry.timestamp()}</td>
+                                        <td>#{entry.result() ? 'Попал 🎯' : 'Мимо ❌'}</td>
+                                        <td>#{entry.point().x()}</td>
+                                        <td>#{entry.point().y()}</td>
+                                        <td>#{entry.point().r()}</td>
+                                            <td>#{entry.execTime()}</td>
+                                    </tr>
+                                </ui:repeat>
+                                <tr class="history-empty">
+                                    <td colspan="6" style="text-align: center; padding: 2rem;">История пуста</td>
+                                </tr>
+                                <ui:fragment rendered="#{empty historyBean.entries}">
+                                </ui:fragment>
+                            </tbody>
+                        </table>
+                    </div>
+                </h:panelGroup>
+            </section>
+        </main>
+    <script type="text/javascript" src="#{request.contextPath}/resources/js/app.js"></script>
+    </h:body>
+</f:view>
+</html>

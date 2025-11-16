@@ -1,0 +1,438 @@
+:root {
+  --bg: #f0f4ff;
+  --card: rgba(255, 255, 255, 0.7);
+  --text: #1a1a1a;
+  --accent: #007aff;
+  --hit: #2ecc71;
+  --miss: #e74c3c;
+  --axis: #333;
+}
+
+body.dark {
+  --bg: #0a0f1a;
+  --card: rgba(20, 20, 30, 0.6);
+  --text: #f5f5f5;
+  --accent: #0a84ff;
+  --axis: #aaa;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  transition: background 0.6s ease, color 0.6s ease;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top left, #00f, transparent 70%),
+  radial-gradient(circle at bottom right, #ff0080, transparent 70%);
+  filter: blur(120px);
+  z-index: -1;
+  transition: background 1s ease;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 1rem auto 0 auto;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.header-left {
+  flex: 1 1 50%;
+}
+
+.header-left h1 {
+  font-size: 1.2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin: 0;
+}
+
+.header-right {
+  flex: 1 1 50%;
+  margin-left: auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.header-right #clock {
+  font-size: 1.2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.card {
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  width: 90%;
+  max-width: 1000px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+.form-group {
+  margin: 1rem 0;
+}
+
+input[type="text"] {
+  padding: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--accent);
+  outline: none;
+  transition: background 0.4s ease;
+}
+
+input.invalid {
+  border-color: var(--miss);
+  background: rgba(255, 0, 0, 0.1);
+}
+
+button, .btn, a.btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  margin: 2px;
+}
+
+button:hover, .btn:hover, a.btn:hover {
+  transform: scale(1.05);
+  text-decoration: none;
+}
+
+.btn-link {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+.btn-link:hover {
+  transform: scale(1.05);
+  text-decoration: none;
+}
+
+select {
+  padding: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--accent);
+  outline: none;
+}
+
+.r-option {
+  margin: 0 6px;
+  display: inline-block;
+}
+
+.r-option input[type="checkbox"] {
+  margin-right: 4px;
+  cursor: pointer;
+}
+
+.r-option label {
+  cursor: pointer;
+  user-select: none;
+}
+
+.y-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+#history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+#history-table th, #history-table td {
+  padding: 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.history-item.hit {
+  background: rgba(46, 204, 113, 0.2);
+}
+
+.history-item.miss {
+  background: rgba(231, 76, 60, 0.2);
+}
+
+/* Стили для своих и чужих точек */
+.history-item.own-point {
+  opacity: 1;
+  font-weight: 500;
+}
+
+.history-item.other-point {
+  opacity: 0.6;
+  font-weight: normal;
+}
+
+.history-item.other-point.hit {
+  background: rgba(46, 204, 113, 0.1);
+}
+
+.history-item.other-point.miss {
+  background: rgba(231, 76, 60, 0.1);
+}
+
+/* Стили для уведомлений */
+#notifications-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.notification {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 350px;
+  opacity: 0;
+  transform: translateX(400px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: auto;
+  border-left: 4px solid var(--accent);
+  font-size: 14px;
+  color: var(--text);
+}
+
+.notification.error {
+  border-left-color: var(--miss);
+  background: rgba(255, 240, 240, 0.98);
+}
+
+.notification.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.notification:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Стили для JSF сообщений об ошибках */
+.jsf-errors-container {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.jsf-error-message {
+  background: rgba(231, 76, 60, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 12px 16px;
+  border: 2px solid var(--miss);
+  color: var(--text);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.jsf-error-message .ui-messages-error,
+.jsf-error-message .ui-message-error {
+  color: var(--miss);
+  font-weight: 500;
+}
+
+.jsf-error-message .ui-messages-info,
+.jsf-error-message .ui-message-info {
+  background: rgba(52, 152, 219, 0.15);
+  border-color: #3498db;
+  color: var(--text);
+}
+
+.jsf-error-message .ui-messages-warn,
+.jsf-error-message .ui-message-warn {
+  background: rgba(241, 196, 15, 0.15);
+  border-color: #f1c40f;
+  color: var(--text);
+}
+
+.jsf-error-message .ui-messages-success,
+.jsf-error-message .ui-message-success {
+  background: rgba(46, 204, 113, 0.15);
+  border-color: var(--hit);
+  color: var(--text);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 1rem;
+  padding: 1rem;
+  height: calc(100vh - 80px);
+  box-sizing: border-box;
+}
+
+/* Centering helper for index page */
+.index-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+.top-section {
+  flex: 1 1 auto;
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.controls {
+  flex: 0 0 320px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  overflow-y: auto;
+}
+
+.graph canvas {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 500px;
+  max-height: 500px;
+  border-radius: 12px;
+  display: block;
+  cursor: crosshair;
+}
+
+.graph {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+
+.history {
+  width: 100%;
+  max-height: 260px; /* немного больше, но внутренний wrapper скроллится */
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* Allow flex children to shrink so the inner wrapper can scroll properly */
+.history {
+  min-height: 0;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  flex: 0 0 auto; /* фиксируем верхнюю панель */
+}
+
+.history-table-wrapper {
+  overflow-y: auto; /* make the wrapper itself scrollable */
+  flex: 1 1 auto; /* таблица растягивается на оставшееся место */
+  height: 80px; /* fixed smaller height so scrollbar appears earlier */
+  max-height: 80px;
+}
+
+/* Ensure table uses fixed layout so columns don't expand and cause overflow */
+#history-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+/* Make the table header sticky inside the scrollable history wrapper */
+#history-table thead th {
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(6px);
+  z-index: 3;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* Ограничиваем высоту истории и включаем прокрутку внутри карточки */
+.history .history-table-wrapper {
+  max-height: 220px;
+  min-height: 0;
+}
+
+#history-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#history-table th, #history-table td {
+  padding: 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.card, .controls, .graph, .history {
+  color: var(--text);
+}
+
+body.dark .card,
+body.dark .controls,
+body.dark .graph,
+body.dark .history {
+  color: #1a1a1a;
+}
