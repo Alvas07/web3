@@ -38,11 +38,7 @@ public class PointCheckBean {
 
     private String selectedX;
     private Double selectedY;
-    private boolean r1 = false;
-    private boolean r1_5 = false;
-    private boolean r2 = false;
-    private boolean r2_5 = false;
-    private boolean r3 = false;
+    private boolean[] rValues = new boolean[5];
 
     private Double graphX;
     private Double graphY;
@@ -60,20 +56,24 @@ public class PointCheckBean {
     public Double getSelectedY() { return selectedY; }
     public void setSelectedY(Double selectedY) { this.selectedY = selectedY; }
 
-    public boolean isR1() { return r1; }
-    public void setR1(boolean r1) { this.r1 = r1; }
+    public boolean[] getRValues() { return rValues; }
+    public void setRValues(boolean[] rValues) { this.rValues = rValues; }
+    
+    // Именованные свойства для JSF
+    public boolean getZero() { return rValues[0]; }
+    public void setZero(boolean value) { rValues[0] = value; }
 
-    public boolean isR1_5() { return r1_5; }
-    public void setR1_5(boolean r1_5) { this.r1_5 = r1_5; }
+    public boolean getOne() { return rValues[1]; }
+    public void setOne(boolean value) { rValues[1] = value; }
 
-    public boolean isR2() { return r2; }
-    public void setR2(boolean r2) { this.r2 = r2; }
+    public boolean getTwo() { return rValues[2]; }
+    public void setTwo(boolean value) { rValues[2] = value; }
 
-    public boolean isR2_5() { return r2_5; }
-    public void setR2_5(boolean r2_5) { this.r2_5 = r2_5; }
+    public boolean getThree() { return rValues[3]; }
+    public void setThree(boolean value) { rValues[3] = value; }
 
-    public boolean isR3() { return r3; }
-    public void setR3(boolean r3) { this.r3 = r3; }
+    public boolean getFour() { return rValues[4]; }
+    public void setFour(boolean value) { rValues[4] = value; }
 
     public Double getGraphX() { return graphX; }
     public void setGraphX(Double graphX) { this.graphX = graphX; }
@@ -142,12 +142,11 @@ public class PointCheckBean {
             sessionID = context.getExternalContext().getSessionId(true);
         }
 
+        double[] rMappings = {1.0, 1.5, 2.0, 2.5, 3.0};
         List<Double> selectedRValues = new ArrayList<>();
-        if (r1) selectedRValues.add(1.0);
-        if (r1_5) selectedRValues.add(1.5);
-        if (r2) selectedRValues.add(2.0);
-        if (r2_5) selectedRValues.add(2.5);
-        if (r3) selectedRValues.add(3.0);
+        for (int i = 0; i < rValues.length && i < rMappings.length; i++) {
+            if (rValues[i]) selectedRValues.add(rMappings[i]);
+        }
 
         if (selectedX == null || selectedX.trim().isEmpty()) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Введите X", null));

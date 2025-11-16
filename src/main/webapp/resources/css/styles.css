@@ -401,11 +401,8 @@ main {
 
 /* Make the table header sticky inside the scrollable history wrapper */
 #history-table thead th {
-  position: sticky;
-  top: 0;
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(6px);
-  z-index: 3;
   box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 

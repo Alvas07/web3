@@ -11,9 +11,7 @@ import java.util.List;
 
 public class ResultDAO {
     public void saveResultsBatch(List<HistoryEntry> entries) {
-        Connection conn = null;
-        try {
-            conn = DBUtil.getConnection();
+        try (Connection conn = DBUtil.getConnection()) {
             conn.setAutoCommit(false);
             try (PreparedStatement ps = conn.prepareStatement(SQLQueries.INSERT_RESULT)) {
                 for (HistoryEntry entry : entries) {
@@ -33,22 +31,6 @@ public class ResultDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.setAutoCommit(true);
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
