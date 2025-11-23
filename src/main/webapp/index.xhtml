@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+>
+<f:view>
+    <h:head>
+        <title>HitChecker - Start</title>
+        <h:outputStylesheet library="css" name="styles.css" />
+        <h:outputScript library="js" name="clock.js" target="body" />
+    </h:head>
+    <h:body>
+        <header>
+            <div class="header-left">
+                <h1>Дядев Владислав Александрович • P3231 • Вариант 3465</h1>
+            </div>
+            <div class="header-right">
+                <div id="clock"></div>
+            </div>
+        </header>
+        <main class="index-main">
+            <div class="card" style="text-align: center">
+                <h2>Нажмите на ссылку ниже для перехода в приложение!</h2>
+                <h:link outcome="main" value="Перейти к проверке точек" styleClass="btn-link" />
+            </div>
+        </main>
+    </h:body>
+</f:view>
+</html>
